@@ -380,8 +380,6 @@ namespace TableDependency.SqlClient
             return $"{name}_{Guid.NewGuid()}";
         }
 
-        
-
         protected override void DropDatabaseObjects(string connectionString, string databaseObjectsNaming)
         {
             using (var sqlConnection = new SqlConnection(connectionString))
