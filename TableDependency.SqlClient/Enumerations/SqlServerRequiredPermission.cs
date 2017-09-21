@@ -27,7 +27,6 @@ using System.ComponentModel;
 
 namespace TableDependency.SqlClient.Enumerations
 {
-    //testing
     /// <summary>
     /// https://msdn.microsoft.com/en-us/library/ms178569.aspx
     /// </summary>
