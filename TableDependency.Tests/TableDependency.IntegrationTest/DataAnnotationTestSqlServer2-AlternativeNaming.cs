@@ -15,7 +15,7 @@ using TableDependency.SqlClient;
 namespace TableDependency.IntegrationTest
 {
     [Table("ANItemsTableSQL2")]
-    public class DataAnnotationTestSelServerModel2
+    public class DataAnnotationTestSelServerModel2AlternateNaming
     {
         public long Id { get; set; }
 
@@ -26,7 +26,7 @@ namespace TableDependency.IntegrationTest
     }
 
     [TestClass]
-    public class DataAnnotationTestSqlServer2
+    public class DataAnnotationTestSqlServer2AlternateNaming
     {
         private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static int _counter;
@@ -80,7 +80,7 @@ namespace TableDependency.IntegrationTest
 
             try
             {
-                tableDependency = new SqlTableDependency<DataAnnotationTestSelServerModel2>(ConnectionString, mapper: mapper);
+                tableDependency = new SqlTableDependency<DataAnnotationTestSelServerModel2>(ConnectionString, mapper: mapper, dataBaseObjectNamePrefix: Constants.NAMINGTOKEN);
                 tableDependency.OnChanged += TableDependency_Changed;                
                 tableDependency.Start();
                 naming = tableDependency.DataBaseObjectsNamingConvention;
@@ -109,7 +109,7 @@ namespace TableDependency.IntegrationTest
 
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(naming));
             Assert.IsTrue(SqlServerHelper.AreAllEndpointDisposed(naming));
-            Assert.IsFalse(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+            Assert.IsTrue(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
         private static void TableDependency_Changed(object sender, RecordChangedEventArgs<DataAnnotationTestSelServerModel2> e)

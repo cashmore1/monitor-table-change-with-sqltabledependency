@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TableDependency.Enums;
 using TableDependency.EventArgs;
+using TableDependency.IntegrationTest.Helpers;
 using TableDependency.IntegrationTest.Helpers.SqlServer;
 using TableDependency.SqlClient;
 
@@ -109,6 +110,7 @@ namespace TableDependency.IntegrationTest
 
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(naming));
             Assert.IsTrue(SqlServerHelper.AreAllEndpointDisposed(naming));
+            Assert.IsFalse(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
         }
 
         private static void TableDependency_Changed(object sender, RecordChangedEventArgs<DataAnnotationTestSelServerModel4> e)

@@ -14,7 +14,7 @@ using TableDependency.SqlClient;
 
 namespace TableDependency.IntegrationTest
 {
-    public class ANItemsTableSQL8
+    public class ANItemsTableSQL8AlternateNaming
     {
         public long IdNotExist { get; set; }
         public string NameNotExist { get; set; }
@@ -22,7 +22,7 @@ namespace TableDependency.IntegrationTest
     }
 
     [TestClass]
-    public class DataAnnotationTestSqlServer8
+    public class DataAnnotationTestSqlServer8AlternateNaming
     {
         private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static readonly string TableName = "ANItemsTableSQL8";
@@ -75,7 +75,7 @@ namespace TableDependency.IntegrationTest
 
             try
             {
-                tableDependency = new SqlTableDependency<ANItemsTableSQL8>(ConnectionString);
+                tableDependency = new SqlTableDependency<ANItemsTableSQL8>(ConnectionString, dataBaseObjectNamePrefix: Constants.NAMINGTOKEN);
                 tableDependency.OnChanged += TableDependency_Changed;
                 tableDependency.Start();
                 naming = tableDependency.DataBaseObjectsNamingConvention;
@@ -104,7 +104,6 @@ namespace TableDependency.IntegrationTest
 
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(naming));
             Assert.IsTrue(SqlServerHelper.AreAllEndpointDisposed(naming));
-
             Assert.IsTrue(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 

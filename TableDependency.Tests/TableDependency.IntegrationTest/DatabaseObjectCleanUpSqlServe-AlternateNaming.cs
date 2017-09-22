@@ -10,7 +10,7 @@ namespace TableDependency.IntegrationTest
 {
 #if DEBUG
     [TestClass]
-    public class DatabaseObjectCleanUpSqlServer
+    public class DatabaseObjectCleanUpSqlServerAlternateNaming
     {
         private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static string TableName = "DatabaseObjectCleanUpSqlServer";
@@ -51,7 +51,7 @@ namespace TableDependency.IntegrationTest
         [TestMethod]
         public void DatabaseObjectCleanUpTest()
         {
-            var tableDependency = new SqlTableDependency<EventForAllColumnsTestSqlServerModel>(ConnectionString, TableName);
+            var tableDependency = new SqlTableDependency<EventForAllColumnsTestSqlServerModel>(ConnectionString, TableName,dataBaseObjectNamePrefix: Constants.NAMINGTOKEN);
             tableDependency.OnChanged += TableDependency_OnChanged;
             tableDependency.Start();
             _dbObjectsNaming = tableDependency.DataBaseObjectsNamingConvention;
@@ -63,7 +63,7 @@ namespace TableDependency.IntegrationTest
             Thread.Sleep(4 * 60 * 1000);
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(_dbObjectsNaming));
             Assert.IsTrue(SqlServerHelper.AreAllEndpointDisposed(_dbObjectsNaming));
-            Assert.IsFalse(_dbObjectsNaming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+            Assert.IsTrue(_dbObjectsNaming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
         private void TableDependency_OnChanged(object sender, EventArgs.RecordChangedEventArgs<EventForAllColumnsTestSqlServerModel> e)

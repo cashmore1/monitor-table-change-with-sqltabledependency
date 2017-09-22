@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,7 +15,7 @@ using TableDependency.IntegrationTest.Helpers.SqlServer;
 
 namespace TableDependency.IntegrationTest
 {
-    public class BigIntDecimalAndFloatModel
+    public class BigIntDecimalAndFloatModelAlternateNaming
     {
         public long? bigintColumn { get; set; }
         public decimal? decimal18Column { get; set; }
@@ -23,7 +24,7 @@ namespace TableDependency.IntegrationTest
     }
 
     [TestClass]
-    public class BigIntDecimalAndFloatTypesTestSqlServer
+    public class BigIntDecimalAndFloatTypesTestSqlServerAlternateNaming
     {
         private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static string TableName = "CheckDecimalAndFloat";
@@ -78,13 +79,13 @@ namespace TableDependency.IntegrationTest
 
             try
             {
-                tableDependency = new SqlTableDependency<BigIntDecimalAndFloatModel>(ConnectionString, TableName);
+                tableDependency = new SqlTableDependency<BigIntDecimalAndFloatModel>(ConnectionString, TableName,null,null,null,DmlTriggerType.All,false,Constants.NAMINGTOKEN);
                 tableDependency.OnChanged += this.TableDependency_Changed;
                 tableDependency.Start();
                 naming = tableDependency.DataBaseObjectsNamingConvention;
-                Assert.IsFalse(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found int the naming convention.");
+                
+                Assert.IsTrue(naming.Contains(Constants.NAMINGTOKEN),$"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found int the naming convention.");
                 Thread.Sleep(5000);
-
                 var t = new Task(ModifyTableContent);
                 t.Start();
                 t.Wait(20000);

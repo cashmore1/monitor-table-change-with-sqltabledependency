@@ -10,21 +10,21 @@ using TableDependency.SqlClient;
 
 namespace TableDependency.IntegrationTest
 {
-    public class DatabaseObjectAutoCleanUpAfter2InsertsTestSqlServerModel
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public DateTime Born { get; set; }
-        public int Quantity { get; set; }
-    }
+    //public class DatabaseObjectAutoCleanUpAfter2InsertsTestSqlServerModelAlternateNaming
+    //{
+    //    public int Id { get; set; }
+    //    public string Name { get; set; }
+    //    public string Surname { get; set; }
+    //    public DateTime Born { get; set; }
+    //    public int Quantity { get; set; }
+    //}
 
 #if DEBUG
     [TestClass]
-    public class DatabaseObjectAutoCleanUpAfter2InsertsTestSqlServer
+    public class DatabaseObjectAutoCleanUpAfter2InsertsTestSqlServerAn
     {
         private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
-        private static string TableName = "DatabaseObjectAutoCleanUpAfter2InsertsTestSqlServerModel";
+        private static string TableName = "DbObjectAutoCleanUpAfter2InsertsTestSModel";
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext testContext)
@@ -69,7 +69,8 @@ namespace TableDependency.IntegrationTest
             var mapper = new ModelToTableMapper<DatabaseObjectAutoCleanUpAfter2InsertsTestSqlServerModel>();
             mapper.AddMapping(c => c.Name, "First Name").AddMapping(c => c.Surname, "Second Name");
 
-            var tableDependency = new SqlTableDependency<DatabaseObjectAutoCleanUpAfter2InsertsTestSqlServerModel>(ConnectionString, TableName, mapper);
+            var tableDependency = new SqlTableDependency<DatabaseObjectAutoCleanUpAfter2InsertsTestSqlServerModel>(ConnectionString, 
+                TableName, mapper, dataBaseObjectNamePrefix: Constants.NAMINGTOKEN);
             tableDependency.OnChanged += TableDependency_OnChanged;
             tableDependency.Start();
             var dbObjectsNaming = tableDependency.DataBaseObjectsNamingConvention;
@@ -87,7 +88,8 @@ namespace TableDependency.IntegrationTest
 
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(dbObjectsNaming));
             Assert.IsTrue(SqlServerHelper.AreAllEndpointDisposed(dbObjectsNaming));
-            Assert.IsFalse(dbObjectsNaming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+
+            Assert.IsTrue(dbObjectsNaming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
         private void TableDependency_OnChanged(object sender, EventArgs.RecordChangedEventArgs<DatabaseObjectAutoCleanUpAfter2InsertsTestSqlServerModel> e)

@@ -13,7 +13,7 @@ using TableDependency.SqlClient;
 
 namespace TableDependency.IntegrationTest
 {
-    public class EventForAllColumnsTestSqlServerModel
+    public class EventForAllColumnsTestSqlServerModelAlternateNaming
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -23,7 +23,7 @@ namespace TableDependency.IntegrationTest
     }
 
     [TestClass]
-    public class EventForAllColumnsTestSqlServer
+    public class EventForAllColumnsTestSqlServerAlternateNaming
     {
         private static string _connectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private const string TableName = "Check_Model";
@@ -83,7 +83,7 @@ namespace TableDependency.IntegrationTest
                 var mapper = new ModelToTableMapper<EventForAllColumnsTestSqlServerModel>();
                 mapper.AddMapping(c => c.Name, "FIRST name").AddMapping(c => c.Surname, "Second Name");
 
-                tableDependency = new SqlTableDependency<EventForAllColumnsTestSqlServerModel>(_connectionString, TableName, mapper);
+                tableDependency = new SqlTableDependency<EventForAllColumnsTestSqlServerModel>(_connectionString, TableName, mapper, dataBaseObjectNamePrefix: Constants.NAMINGTOKEN);
                 tableDependency.OnChanged += TableDependency_Changed;
                 tableDependency.Start();
                 naming = tableDependency.DataBaseObjectsNamingConvention;
@@ -107,7 +107,7 @@ namespace TableDependency.IntegrationTest
             Assert.AreEqual(_checkValues[ChangeType.Delete.ToString()].Item2.Name, _checkValues[ChangeType.Delete.ToString()].Item1.Name);
             Assert.AreEqual(_checkValues[ChangeType.Delete.ToString()].Item2.Surname, _checkValues[ChangeType.Delete.ToString()].Item1.Surname);
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(naming));
-            Assert.IsFalse(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+            Assert.IsTrue(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
         private static void TableDependency_Changed(object sender, RecordChangedEventArgs<EventForAllColumnsTestSqlServerModel> e)

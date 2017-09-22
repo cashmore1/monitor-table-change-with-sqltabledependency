@@ -13,7 +13,7 @@ using TableDependency.SqlClient;
 
 namespace TableDependency.IntegrationTest
 {
-    public class EventForAllColumnsTestSqlServerModel
+    public class EventForSpecificColumnsTestSqlServerModelAlternateNaming
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -23,12 +23,12 @@ namespace TableDependency.IntegrationTest
     }
 
     [TestClass]
-    public class EventForAllColumnsTestSqlServer
+    public class EventForSpecificColumnsTestSqlServerAlternateNaming
     {
         private static string _connectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private const string TableName = "Check_Model";
         private static int _counter;
-        private static Dictionary<string, Tuple<EventForAllColumnsTestSqlServerModel, EventForAllColumnsTestSqlServerModel>> _checkValues = new Dictionary<string, Tuple<EventForAllColumnsTestSqlServerModel, EventForAllColumnsTestSqlServerModel>>();
+        private static Dictionary<string, Tuple<EventForSpecificColumnsTestSqlServerModel, EventForSpecificColumnsTestSqlServerModel>> _checkValues = new Dictionary<string, Tuple<EventForSpecificColumnsTestSqlServerModel, EventForSpecificColumnsTestSqlServerModel>>();
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -73,22 +73,31 @@ namespace TableDependency.IntegrationTest
 
         [TestCategory("SqlServer")]
         [TestMethod]
-        public void EventForAllColumnsTest()
+        public void EventForSpecificColumnsTest()
         {
-            SqlTableDependency<EventForAllColumnsTestSqlServerModel> tableDependency = null;
+            SqlTableDependency<EventForSpecificColumnsTestSqlServerModel> tableDependency = null;
             string naming = null;
 
             try
             {
-                var mapper = new ModelToTableMapper<EventForAllColumnsTestSqlServerModel>();
+                var mapper = new ModelToTableMapper<EventForSpecificColumnsTestSqlServerModel>();
                 mapper.AddMapping(c => c.Name, "FIRST name").AddMapping(c => c.Surname, "Second Name");
 
-                tableDependency = new SqlTableDependency<EventForAllColumnsTestSqlServerModel>(_connectionString, TableName, mapper);
+                var updateOf = new UpdateOfModel<EventForSpecificColumnsTestSqlServerModel>();
+                updateOf.Add(i => i.Surname);
+
+                tableDependency = new SqlTableDependency<EventForSpecificColumnsTestSqlServerModel>(
+                    _connectionString, 
+                    tableName: TableName, 
+                    mapper: mapper, 
+                    updateOf: updateOf,
+                    dataBaseObjectNamePrefix: Constants.NAMINGTOKEN);
+
                 tableDependency.OnChanged += TableDependency_Changed;
                 tableDependency.Start();
                 naming = tableDependency.DataBaseObjectsNamingConvention;
 
-                Thread.Sleep(5000);
+                Thread.Sleep (5000);
 
                 var t = new Task(ModifyTableContent);
                 t.Start();
@@ -99,18 +108,17 @@ namespace TableDependency.IntegrationTest
                 tableDependency?.Dispose();
             }
 
-            Assert.AreEqual(_counter, 3);
+            Assert.AreEqual(_counter, 2);
             Assert.AreEqual(_checkValues[ChangeType.Insert.ToString()].Item2.Name, _checkValues[ChangeType.Insert.ToString()].Item1.Name);
             Assert.AreEqual(_checkValues[ChangeType.Insert.ToString()].Item2.Surname, _checkValues[ChangeType.Insert.ToString()].Item1.Surname);
-            Assert.AreEqual(_checkValues[ChangeType.Update.ToString()].Item2.Name, _checkValues[ChangeType.Update.ToString()].Item1.Name);
-            Assert.AreEqual(_checkValues[ChangeType.Update.ToString()].Item2.Surname, _checkValues[ChangeType.Update.ToString()].Item1.Surname);
+
             Assert.AreEqual(_checkValues[ChangeType.Delete.ToString()].Item2.Name, _checkValues[ChangeType.Delete.ToString()].Item1.Name);
             Assert.AreEqual(_checkValues[ChangeType.Delete.ToString()].Item2.Surname, _checkValues[ChangeType.Delete.ToString()].Item1.Surname);
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(naming));
-            Assert.IsFalse(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+            Assert.IsTrue(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
-        private static void TableDependency_Changed(object sender, RecordChangedEventArgs<EventForAllColumnsTestSqlServerModel> e)
+        private static void TableDependency_Changed(object sender, RecordChangedEventArgs<EventForSpecificColumnsTestSqlServerModel> e)
         {
             _counter++;
 
@@ -119,10 +127,6 @@ namespace TableDependency.IntegrationTest
                 case ChangeType.Insert:
                     _checkValues[ChangeType.Insert.ToString()].Item2.Name = e.Entity.Name;
                     _checkValues[ChangeType.Insert.ToString()].Item2.Surname = e.Entity.Surname;
-                    break;
-                case ChangeType.Update:
-                    _checkValues[ChangeType.Update.ToString()].Item2.Name = e.Entity.Name;
-                    _checkValues[ChangeType.Update.ToString()].Item2.Surname = e.Entity.Surname;
                     break;
                 case ChangeType.Delete:
                     _checkValues[ChangeType.Delete.ToString()].Item2.Name = e.Entity.Name;
@@ -133,9 +137,9 @@ namespace TableDependency.IntegrationTest
 
         private static void ModifyTableContent()
         {
-            _checkValues.Add(ChangeType.Insert.ToString(), new Tuple<EventForAllColumnsTestSqlServerModel, EventForAllColumnsTestSqlServerModel>(new EventForAllColumnsTestSqlServerModel { Name = "Christian", Surname = "Del Bianco" }, new EventForAllColumnsTestSqlServerModel()));
-            _checkValues.Add(ChangeType.Update.ToString(), new Tuple<EventForAllColumnsTestSqlServerModel, EventForAllColumnsTestSqlServerModel>(new EventForAllColumnsTestSqlServerModel { Name = "Velia", Surname = "Ceccarelli" }, new EventForAllColumnsTestSqlServerModel()));
-            _checkValues.Add(ChangeType.Delete.ToString(), new Tuple<EventForAllColumnsTestSqlServerModel, EventForAllColumnsTestSqlServerModel>(new EventForAllColumnsTestSqlServerModel { Name = "Velia", Surname = "Ceccarelli" }, new EventForAllColumnsTestSqlServerModel()));
+            _checkValues.Add(ChangeType.Insert.ToString(), new Tuple<EventForSpecificColumnsTestSqlServerModel, EventForSpecificColumnsTestSqlServerModel>(new EventForSpecificColumnsTestSqlServerModel { Name = "Christian", Surname = "Del Bianco" }, new EventForSpecificColumnsTestSqlServerModel()));
+            _checkValues.Add(ChangeType.Update.ToString(), new Tuple<EventForSpecificColumnsTestSqlServerModel, EventForSpecificColumnsTestSqlServerModel>(new EventForSpecificColumnsTestSqlServerModel { Name = "Velia" }, new EventForSpecificColumnsTestSqlServerModel()));
+            _checkValues.Add(ChangeType.Delete.ToString(), new Tuple<EventForSpecificColumnsTestSqlServerModel, EventForSpecificColumnsTestSqlServerModel>(new EventForSpecificColumnsTestSqlServerModel { Name = "Velia", Surname = "Del Bianco" }, new EventForSpecificColumnsTestSqlServerModel()));
 
             using (var sqlConnection = new SqlConnection(_connectionString))
             {
@@ -144,15 +148,15 @@ namespace TableDependency.IntegrationTest
                 {
                     sqlCommand.CommandText = $"INSERT INTO [{TableName}] ([First Name], [Second Name]) VALUES ('{_checkValues[ChangeType.Insert.ToString()].Item1.Name}', '{_checkValues[ChangeType.Insert.ToString()].Item1.Surname}')";
                     sqlCommand.ExecuteNonQuery();
-                    Thread.Sleep(500);
+                    Thread.Sleep(1000);
 
-                    sqlCommand.CommandText = $"UPDATE [{TableName}] SET [First Name] = '{_checkValues[ChangeType.Update.ToString()].Item1.Name}', [Second Name] = '{_checkValues[ChangeType.Update.ToString()].Item1.Surname}'";
+                    sqlCommand.CommandText = $"UPDATE [{TableName}] SET [First Name] = '{_checkValues[ChangeType.Update.ToString()].Item1.Name}'";
                     sqlCommand.ExecuteNonQuery();
-                    Thread.Sleep(500);
+                    Thread.Sleep(1000);
 
                     sqlCommand.CommandText = $"DELETE FROM [{TableName}]";
                     sqlCommand.ExecuteNonQuery();
-                    Thread.Sleep(500);
+                    Thread.Sleep(1000);
                 }
             }
         }

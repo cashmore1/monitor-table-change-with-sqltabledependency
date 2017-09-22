@@ -13,7 +13,7 @@ using TableDependency.SqlClient;
 
 namespace TableDependency.IntegrationTest
 {
-    public class UpdateOfUsingLambaTestSqlServerModel
+    public class UpdateOfUsingLambaTestSqlServerModelAlternateNaming
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -23,7 +23,7 @@ namespace TableDependency.IntegrationTest
     }
 
     [TestClass]
-    public class UpdateOfUsingLambaTestSqlServer
+    public class UpdateOfUsingLambaTestSqlServerAlternateNaming
     {
         private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static readonly string TableName = typeof(UpdateOfUsingLambaTestSqlServerModel).Name.ToUpper();
@@ -83,7 +83,7 @@ namespace TableDependency.IntegrationTest
 
             try
             {
-                tableDependency = new SqlTableDependency<UpdateOfUsingLambaTestSqlServerModel>(ConnectionString, updateOf: updateOfModel);
+                tableDependency = new SqlTableDependency<UpdateOfUsingLambaTestSqlServerModel>(ConnectionString, updateOf: updateOfModel, dataBaseObjectNamePrefix: Constants.NAMINGTOKEN);
                 tableDependency.OnChanged += TableDependency_Changed;
                 tableDependency.Start();
                 naming = tableDependency.DataBaseObjectsNamingConvention;
@@ -111,7 +111,7 @@ namespace TableDependency.IntegrationTest
             Assert.AreEqual(CheckValues[ChangeType.Delete.ToString()].Item2.Surname, CheckValues[ChangeType.Delete.ToString()].Item1.Surname);
 
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(naming));
-            Assert.IsFalse(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+            Assert.IsTrue(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
         private static void TableDependency_Changed(object sender, RecordChangedEventArgs<UpdateOfUsingLambaTestSqlServerModel> e)

@@ -9,7 +9,7 @@ using TableDependency.SqlClient;
 
 namespace TableDependency.IntegrationTest
 {
-    public class DatabaseObjectCleanUpTestSqlServerModel
+    public class DatabaseObjectCleanUpTestSqlServerModelAlternateNaming
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -19,7 +19,7 @@ namespace TableDependency.IntegrationTest
     }
 
     [TestClass]
-    public class DatabaseObjectAutoCleanUpTestSqlServer
+    public class DatabaseObjectAutoCleanUpTestSqlServerAlternateNaming
     {
         private static string _dbObjectsNaming;
         private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
@@ -83,8 +83,10 @@ namespace TableDependency.IntegrationTest
             domaininfo.ApplicationBase = Environment.CurrentDirectory;
             var adevidence = AppDomain.CurrentDomain.Evidence;
             var domain = AppDomain.CreateDomain("RunsInAnotherAppDomain_Check_DatabaseObjectCleanUp", adevidence, domaininfo);
-            var otherDomainObject = (RunsInAnotherAppDomain_Check_DatabaseObjectCleanUp)domain.CreateInstanceAndUnwrap(typeof(RunsInAnotherAppDomain_Check_DatabaseObjectCleanUp).Assembly.FullName, typeof(RunsInAnotherAppDomain_Check_DatabaseObjectCleanUp).FullName);
-            _dbObjectsNaming = otherDomainObject.RunTableDependency(ConnectionString, TableName);
+
+            var otherDomainObject = (RunsInAnotherAppDomain_Check_DatabaseObjectCleanUpAlternateNaming)domain.CreateInstanceAndUnwrap(typeof(RunsInAnotherAppDomain_Check_DatabaseObjectCleanUpAlternateNaming).Assembly.FullName, typeof(RunsInAnotherAppDomain_Check_DatabaseObjectCleanUpAlternateNaming).FullName);
+            _dbObjectsNaming = otherDomainObject.RunTableDependency(ConnectionString, TableName, Constants.NAMINGTOKEN);
+
             Thread.Sleep(5000);
             AppDomain.Unload(domain);
 
@@ -93,8 +95,7 @@ namespace TableDependency.IntegrationTest
             Thread.Sleep(3 * 60 * 1000);
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(_dbObjectsNaming));
             Assert.IsTrue(SqlServerHelper.AreAllEndpointDisposed(_dbObjectsNaming));
-
-            Assert.IsFalse(_dbObjectsNaming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+            Assert.IsTrue(_dbObjectsNaming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
         private static void SmallModifyTableContent()
@@ -111,14 +112,15 @@ namespace TableDependency.IntegrationTest
         }
     }
 
-    public class RunsInAnotherAppDomain_Check_DatabaseObjectCleanUp : MarshalByRefObject
+    public class RunsInAnotherAppDomain_Check_DatabaseObjectCleanUpAlternateNaming : MarshalByRefObject
     {
-        public string RunTableDependency(string connectionString, string tableName)
+        public string RunTableDependency(string connectionString, string tableName, string databaseObjectNamePrefix)
         {
             var mapper = new ModelToTableMapper<DatabaseObjectCleanUpTestSqlServerModel>();
             mapper.AddMapping(c => c.Name, "First Name").AddMapping(c => c.Surname, "Second Name");
 
-            var tableDependency = new SqlTableDependency<DatabaseObjectCleanUpTestSqlServerModel>(connectionString, tableName, mapper);
+            var tableDependency = new SqlTableDependency<DatabaseObjectCleanUpTestSqlServerModel>(connectionString, tableName,
+                mapper, dataBaseObjectNamePrefix: databaseObjectNamePrefix);
             tableDependency.OnChanged += (sender, e) => { };
             tableDependency.Start(60, 120);
             return tableDependency.DataBaseObjectsNamingConvention;
