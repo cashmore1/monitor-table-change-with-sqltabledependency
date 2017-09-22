@@ -13,7 +13,7 @@ using TableDependency.SqlClient;
 
 namespace TableDependency.IntegrationTest
 {
-    public class XmlAsVarcharMaxSqlServerTestModell
+    public class XmlAsVarcharMaxSqlServerTestModellAlternateNamging
     {
         // *****************************************************
         // SQL Server Data Type Mappings: 
@@ -24,7 +24,7 @@ namespace TableDependency.IntegrationTest
     }
 
     [TestClass]
-    public class XmlAsStringSqlServerTest
+    public class XmlAsStringSqlServerTestAlternateNaming
     {
         private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private const string TableName = "XmlAsVarcharMaxSqlServerTestModell";
@@ -73,7 +73,7 @@ namespace TableDependency.IntegrationTest
 
             try
             {
-                tableDependency = new SqlTableDependency<XmlAsVarcharMaxSqlServerTestModell>(ConnectionString, TableName);
+                tableDependency = new SqlTableDependency<XmlAsVarcharMaxSqlServerTestModell>(ConnectionString, TableName, dataBaseObjectNamePrefix: Constants.NAMINGTOKEN);
                 tableDependency.OnChanged += this.TableDependency_Changed;
                 tableDependency.Start();
                 naming = tableDependency.DataBaseObjectsNamingConvention;
@@ -102,7 +102,7 @@ namespace TableDependency.IntegrationTest
 
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(naming));
             Assert.IsTrue(SqlServerHelper.AreAllEndpointDisposed(naming));
-            Assert.IsFalse(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+            Assert.IsTrue(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
         private void TableDependency_Changed(object sender, RecordChangedEventArgs<XmlAsVarcharMaxSqlServerTestModell> e)

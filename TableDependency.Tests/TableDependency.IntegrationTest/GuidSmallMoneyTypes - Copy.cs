@@ -14,19 +14,19 @@ using TableDependency.SqlClient;
 
 namespace TableDependency.IntegrationTest
 {
-    public class ModelGuidSmallMoneyTypes
-    {
-        public Guid uniqueidentifierColumn { get; set; }
-        public Nullable<TimeSpan> time7Column { get; set; }
-        public byte tinyintColumn { get; set; }
-        public DateTime smalldatetimeColumn { get; set; }
-        public short smallintColumn { get; set; }
-        public Decimal moneyColumn { get; set; }
-        public Decimal smallmoneyColumn { get; set; }
-    }
+    //public class ModelGuidSmallMoneyTypes
+    //{
+    //    public Guid uniqueidentifierColumn { get; set; }
+    //    public Nullable<TimeSpan> time7Column { get; set; }
+    //    public byte tinyintColumn { get; set; }
+    //    public DateTime smalldatetimeColumn { get; set; }
+    //    public short smallintColumn { get; set; }
+    //    public Decimal moneyColumn { get; set; }
+    //    public Decimal smallmoneyColumn { get; set; }
+    //}
 
     [TestClass]
-    public class GuidSmallMoneyTypes
+    public class GuidSmallMoneyTypesAlternateNaming
     {
         private static string _connectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static string TableName = "CheckGuidSmallMoneyTimeStampTypes";
@@ -79,7 +79,7 @@ namespace TableDependency.IntegrationTest
 
             try
             {
-                tableDependency = new SqlTableDependency<ModelGuidSmallMoneyTypes>(_connectionString, TableName);
+                tableDependency = new SqlTableDependency<ModelGuidSmallMoneyTypes>(_connectionString, TableName, dataBaseObjectNamePrefix: Constants.NAMINGTOKEN);
                 tableDependency.OnChanged += this.TableDependency_Changed;
                 tableDependency.Start();
                 naming = tableDependency.DataBaseObjectsNamingConvention;
@@ -120,7 +120,7 @@ namespace TableDependency.IntegrationTest
             Assert.AreEqual(_checkValues[ChangeType.Delete.ToString()].Item2.smallmoneyColumn, _checkValues[ChangeType.Delete.ToString()].Item1.smallmoneyColumn);
 
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(naming));
-            Assert.IsFalse(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+            Assert.IsTrue(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
         private void TableDependency_Changed(object sender, RecordChangedEventArgs<ModelGuidSmallMoneyTypes> e)

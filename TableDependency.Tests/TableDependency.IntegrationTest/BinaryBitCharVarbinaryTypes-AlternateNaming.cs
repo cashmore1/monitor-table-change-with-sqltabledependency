@@ -14,7 +14,7 @@ using TableDependency.IntegrationTest.Helpers.SqlServer;
 
 namespace TableDependency.IntegrationTest
 {
-    public class BinaryBitCharVarbinaryModel
+    public class BinaryBitCharVarbinaryModelAlternateNaming
     {
         public byte[] binary50Column { get; set; }
         public bool? bitColumn { get; set; }
@@ -26,7 +26,7 @@ namespace TableDependency.IntegrationTest
     }
 
     [TestClass]
-    public class BinaryBitCharVarbinaryTypes
+    public class BinaryBitCharVarbinaryTypesAlternateNaming 
     {
         private static string _connectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static string TableName = "Test";
@@ -81,10 +81,11 @@ namespace TableDependency.IntegrationTest
 
             try
             {
-                tableDependency = new SqlTableDependency<BinaryBitCharVarbinaryModel>(_connectionString, TableName);
+                tableDependency = new SqlTableDependency<BinaryBitCharVarbinaryModel>(_connectionString, TableName,null,null,null,DmlTriggerType.All,false,Constants.NAMINGTOKEN);
                 tableDependency.OnChanged += this.TableDependency_Changed;
                 tableDependency.Start();
                 naming = tableDependency.DataBaseObjectsNamingConvention;
+                Assert.IsTrue(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found int the naming convention.");
 
                 Thread.Sleep(5000);
 
@@ -116,7 +117,6 @@ namespace TableDependency.IntegrationTest
             Assert.AreEqual(GetString(_checkValues[ChangeType.Delete.ToString()].Item2.varbinaryMAXColumn), GetString(_checkValues[ChangeType.Delete.ToString()].Item1.varbinaryMAXColumn));
 
             Assert.IsTrue(SqlServerHelper.AreAllEndpointDisposed(naming));
-            Assert.IsFalse(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
         }
 
         private void TableDependency_Changed(object sender, RecordChangedEventArgs<BinaryBitCharVarbinaryModel> e)

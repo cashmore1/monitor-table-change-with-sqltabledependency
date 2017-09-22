@@ -13,15 +13,15 @@ using TableDependency.SqlClient;
 
 namespace TableDependency.IntegrationTest
 {
-    internal class Issue55Model
-    {
-        public decimal PaymentDiscount { get; set; }
-        public int AllowQuantity { get; set; }
-        public string DocNo { get; set; }
-    }
+    //internal class Issue55Model
+    //{
+    //    public decimal PaymentDiscount { get; set; }
+    //    public int AllowQuantity { get; set; }
+    //    public string DocNo { get; set; }
+    //}
 
     [TestClass]
-    public class Issue55
+    public class Issue55AlternateNaming
     {
         private const string TableName = "BranchABC$Sales Invoice Header";
         private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
@@ -73,7 +73,7 @@ namespace TableDependency.IntegrationTest
             mapper.AddMapping(c => c.DocNo, "Applies-to Doc_ No_");
 
             string objectNaming;
-            var tableDependency = new SqlTableDependency<Issue55Model>(ConnectionString, TableName, mapper);
+            var tableDependency = new SqlTableDependency<Issue55Model>(ConnectionString, TableName, mapper, dataBaseObjectNamePrefix: Constants.NAMINGTOKEN);
 
             try
             {
@@ -107,7 +107,7 @@ namespace TableDependency.IntegrationTest
 
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(objectNaming));
             Assert.IsTrue(SqlServerHelper.AreAllEndpointDisposed(objectNaming));
-            Assert.IsFalse(objectNaming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+            Assert.IsTrue(objectNaming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
         private static void TableDependency_Changed(object sender, RecordChangedEventArgs<Issue55Model> e)

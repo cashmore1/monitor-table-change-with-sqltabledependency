@@ -62,7 +62,7 @@ namespace TableDependency.SqlClient
         protected Guid DialogHandle;
         protected const string DisposeMessageTemplate = "{0}/Dispose";
         protected const string StartMessageTemplate = "{0}/StartDialog/{1}";
-        protected string defalutDataBaseObjectNamePrefix = String.Empty;
+        
 
         #endregion
 
@@ -127,6 +127,7 @@ namespace TableDependency.SqlClient
         /// <param name="filter">The filter condition translated in WHERE.</param>
         /// <param name="notifyOn">The notify on Insert, Delete, Update operation.</param>
         /// <param name="executeUserPermissionCheck">if set to <c>true</c> [execute user permission check].</param>
+        /// <param name ="dataBaseObjectNamePrefix"></param>
        public SqlTableDependency(
             string connectionString,
             string tableName = null,
@@ -134,24 +135,12 @@ namespace TableDependency.SqlClient
             IUpdateOfModel<T> updateOf = null,
             ITableDependencyFilter filter = null,
             DmlTriggerType notifyOn = DmlTriggerType.All,
-            bool executeUserPermissionCheck = false
-            ) : base(connectionString,  tableName, mapper, updateOf, filter, notifyOn, executeUserPermissionCheck)
+            bool executeUserPermissionCheck = false,
+            string dataBaseObjectNamePrefix = null
+            ) : base(connectionString,  tableName, mapper, updateOf, filter, notifyOn, executeUserPermissionCheck,dataBaseObjectNamePrefix)
         {
         }
-        public SqlTableDependency(
-            string connectionString,
-            string dataBaseObjectNamePrefix,
-            string tableName = null,
-            IModelToTableMapper<T> mapper = null,
-            IUpdateOfModel<T> updateOf = null,
-            ITableDependencyFilter filter = null,
-            DmlTriggerType notifyOn = DmlTriggerType.All,
-            bool executeUserPermissionCheck = false
-        ) : base(connectionString,  tableName, mapper, updateOf, filter, notifyOn, executeUserPermissionCheck)
-        {
-            defalutDataBaseObjectNamePrefix = dataBaseObjectNamePrefix;
-        }
-
+        
 
 
         #endregion
@@ -215,6 +204,9 @@ namespace TableDependency.SqlClient
                 _dataBaseObjectsNamingConvention,
                 this.CultureInfoFiveLettersIsoCode);
         }
+
+
+     
 
         protected override string GetDataBaseName(string connectionString)
         {
@@ -370,17 +362,15 @@ namespace TableDependency.SqlClient
         }
 
         
-        protected override string GetBaseObjectsNamingConvention()
+        protected override  string GetBaseObjectsNamingConvention(string dataBaseObjectNamePrefix)
         {
             var name = $"{_schemaName}_{_tableName}";
-            if (!string.IsNullOrEmpty(defalutDataBaseObjectNamePrefix))
+            if (!string.IsNullOrEmpty(dataBaseObjectNamePrefix))
             {
-                name = $"{defalutDataBaseObjectNamePrefix}__{name}";
+                name = $"{name}_{dataBaseObjectNamePrefix}";
             }
             return $"{name}_{Guid.NewGuid()}";
         }
-
-        
 
         protected override void DropDatabaseObjects(string connectionString, string databaseObjectsNaming)
         {

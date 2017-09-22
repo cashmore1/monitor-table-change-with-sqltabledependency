@@ -14,7 +14,7 @@ using TableDependency.SqlClient;
 
 namespace TableDependency.IntegrationTest
 {
-    public class TriggerTypeTestSqlServerModel
+    public class TriggerTypeTestSqlServerModelAlternateNaming
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -24,7 +24,7 @@ namespace TableDependency.IntegrationTest
     }
 
     [TestClass]
-    public class TriggerTypeTestSqlServer
+    public class TriggerTypeTestSqlServerAlternateNaming
     {
         private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private const string TableName = "CheckTriggerType";
@@ -100,7 +100,7 @@ namespace TableDependency.IntegrationTest
                     ConnectionString,
                     tableName: TableName,
                     updateOf: updateOf, 
-                    notifyOn: DmlTriggerType.Insert);
+                    notifyOn: DmlTriggerType.Insert,dataBaseObjectNamePrefix:Constants.NAMINGTOKEN);
 
                 naming = tableDependency.DataBaseObjectsNamingConvention;
             }
@@ -110,7 +110,7 @@ namespace TableDependency.IntegrationTest
             }
            
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(naming));
-            Assert.IsFalse(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+            Assert.IsTrue(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
         [TestCategory("SqlServer")]
@@ -130,7 +130,8 @@ namespace TableDependency.IntegrationTest
                     ConnectionString,
                     tableName: TableName,
                     updateOf: updateOf,
-                    notifyOn: DmlTriggerType.Delete);
+                    notifyOn: DmlTriggerType.Delete,
+                    dataBaseObjectNamePrefix: Constants.NAMINGTOKEN);
 
                 naming = tableDependency.DataBaseObjectsNamingConvention;
             }
@@ -140,7 +141,7 @@ namespace TableDependency.IntegrationTest
             }
 
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(naming));
-            Assert.IsFalse(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+            Assert.IsTrue(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
         [TestCategory("SqlServer")]
@@ -160,7 +161,7 @@ namespace TableDependency.IntegrationTest
                     ConnectionString,
                     tableName: TableName,
                     updateOf: updateOf,
-                    notifyOn: DmlTriggerType.Delete | DmlTriggerType.Insert);
+                    notifyOn: DmlTriggerType.Delete | DmlTriggerType.Insert, dataBaseObjectNamePrefix: Constants.NAMINGTOKEN);
 
                 naming = tableDependency.DataBaseObjectsNamingConvention;
             }
@@ -170,7 +171,7 @@ namespace TableDependency.IntegrationTest
             }
 
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(naming));
-            Assert.IsFalse(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+            Assert.IsTrue(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
         [TestCategory("SqlServer")]
@@ -185,7 +186,7 @@ namespace TableDependency.IntegrationTest
                 tableDependency = new SqlTableDependency<TriggerTypeTestSqlServerModel>(
                     ConnectionString,
                     tableName: TableName,
-                    notifyOn : DmlTriggerType.Insert);
+                    notifyOn : DmlTriggerType.Insert, dataBaseObjectNamePrefix: Constants.NAMINGTOKEN);
 
                 tableDependency.OnChanged += TableDependency_Changed;
                 tableDependency.Start();
@@ -208,7 +209,7 @@ namespace TableDependency.IntegrationTest
             Assert.AreEqual(CheckValues[ChangeType.Insert.ToString()].Item2.Surname, "Pizza Mergherita");
 
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(naming));
-            Assert.IsFalse(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+            Assert.IsTrue(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
         [TestCategory("SqlServer")]
@@ -223,7 +224,7 @@ namespace TableDependency.IntegrationTest
                 tableDependency = new SqlTableDependency<TriggerTypeTestSqlServerModel>(
                     ConnectionString,
                     tableName: TableName,
-                    notifyOn: DmlTriggerType.Delete);
+                    notifyOn: DmlTriggerType.Delete, dataBaseObjectNamePrefix: Constants.NAMINGTOKEN);
 
                 tableDependency.OnChanged += TableDependency_Changed;
                 tableDependency.Start();
@@ -246,7 +247,7 @@ namespace TableDependency.IntegrationTest
             Assert.AreEqual(CheckValues[ChangeType.Delete.ToString()].Item2.Surname, "Pizza Mergherita");
 
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(naming));
-            Assert.IsFalse(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+            Assert.IsTrue(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
         [TestCategory("SqlServer")]
@@ -261,7 +262,7 @@ namespace TableDependency.IntegrationTest
                 tableDependency = new SqlTableDependency<TriggerTypeTestSqlServerModel>(
                     ConnectionString,
                     tableName: TableName,
-                    notifyOn: DmlTriggerType.Update);
+                    notifyOn: DmlTriggerType.Update, dataBaseObjectNamePrefix: Constants.NAMINGTOKEN);
 
                 tableDependency.OnChanged += TableDependency_Changed;
                 tableDependency.Start();
@@ -284,7 +285,7 @@ namespace TableDependency.IntegrationTest
             Assert.AreEqual(CheckValues[ChangeType.Update.ToString()].Item2.Surname, "Pizza Mergherita");
 
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(naming));
-            Assert.IsFalse(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+            Assert.IsTrue(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
         [TestCategory("SqlServer")]
@@ -299,7 +300,7 @@ namespace TableDependency.IntegrationTest
                 tableDependency = new SqlTableDependency<TriggerTypeTestSqlServerModel>(
                     ConnectionString,
                     tableName: TableName,
-                    notifyOn: DmlTriggerType.Insert | DmlTriggerType.Delete);
+                    notifyOn: DmlTriggerType.Insert | DmlTriggerType.Delete, dataBaseObjectNamePrefix: Constants.NAMINGTOKEN);
 
                 tableDependency.OnChanged += TableDependency_Changed;
                 tableDependency.Start();
@@ -325,7 +326,7 @@ namespace TableDependency.IntegrationTest
             Assert.AreEqual(CheckValues[ChangeType.Delete.ToString()].Item2.Surname, "Pizza Mergherita");
 
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(naming));
-            Assert.IsFalse(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+            Assert.IsTrue(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
         [TestCategory("SqlServer")]
@@ -340,7 +341,7 @@ namespace TableDependency.IntegrationTest
                 tableDependency = new SqlTableDependency<TriggerTypeTestSqlServerModel>(
                     ConnectionString,
                     tableName: TableName,
-                    notifyOn: DmlTriggerType.Insert | DmlTriggerType.Update);
+                    notifyOn: DmlTriggerType.Insert | DmlTriggerType.Update, dataBaseObjectNamePrefix: Constants.NAMINGTOKEN);
 
                 tableDependency.OnChanged += TableDependency_Changed;
                 tableDependency.Start();
@@ -366,7 +367,7 @@ namespace TableDependency.IntegrationTest
             Assert.AreEqual(CheckValues[ChangeType.Update.ToString()].Item2.Surname, "Pizza Mergherita");
 
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(naming));
-            Assert.IsFalse(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+            Assert.IsTrue(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
         [TestCategory("SqlServer")]
@@ -381,7 +382,7 @@ namespace TableDependency.IntegrationTest
                 tableDependency = new SqlTableDependency<TriggerTypeTestSqlServerModel>(
                     ConnectionString,
                     tableName: TableName,
-                    notifyOn: DmlTriggerType.Delete | DmlTriggerType.Insert | DmlTriggerType.Update);
+                    notifyOn: DmlTriggerType.Delete | DmlTriggerType.Insert | DmlTriggerType.Update, dataBaseObjectNamePrefix: Constants.NAMINGTOKEN);
                 tableDependency.OnChanged += TableDependency_Changed;
                 tableDependency.Start();
                 naming = tableDependency.DataBaseObjectsNamingConvention;
@@ -409,7 +410,7 @@ namespace TableDependency.IntegrationTest
             Assert.AreEqual(CheckValues[ChangeType.Delete.ToString()].Item2.Surname, "Pizza Mergherita");
 
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(naming));
-            Assert.IsFalse(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+            Assert.IsTrue(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
         [TestCategory("SqlServer")]
@@ -424,7 +425,7 @@ namespace TableDependency.IntegrationTest
                 tableDependency = new SqlTableDependency<TriggerTypeTestSqlServerModel>(
                     ConnectionString,
                     tableName: TableName,
-                    notifyOn: DmlTriggerType.All);
+                    notifyOn: DmlTriggerType.All, dataBaseObjectNamePrefix: Constants.NAMINGTOKEN);
 
                 tableDependency.OnChanged += TableDependency_Changed;
                 tableDependency.Start();
@@ -453,7 +454,7 @@ namespace TableDependency.IntegrationTest
             Assert.AreEqual(CheckValues[ChangeType.Delete.ToString()].Item2.Surname, "Pizza Mergherita");
 
             Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(naming));
-            Assert.IsFalse(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was found in the object naming where it doesn't belong.");
+            Assert.IsTrue(naming.Contains(Constants.NAMINGTOKEN), $"The naming convention of [ {Constants.NAMINGTOKEN} ] was not found in the object naming where it belong.");
         }
 
         private static void TableDependency_Changed(object sender, RecordChangedEventArgs<TriggerTypeTestSqlServerModel> e)

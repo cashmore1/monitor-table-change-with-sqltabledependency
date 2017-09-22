@@ -34,7 +34,7 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>TableDependency.SqlClient.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>TableDependency.SqlClient.El.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>
@@ -75,6 +75,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="TableDependency.SqlClient.El.pfx" />
     <None Include="TableDependency.SqlClient.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

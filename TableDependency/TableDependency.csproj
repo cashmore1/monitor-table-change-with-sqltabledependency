@@ -34,7 +34,7 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>TableDependency.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>TableDependency.El.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>
@@ -89,6 +89,7 @@
     <Compile Include="Utilities\Separator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="TableDependency.El.pfx" />
     <None Include="TableDependency.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
