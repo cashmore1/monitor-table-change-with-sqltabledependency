@@ -62,30 +62,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BigIntDecimalAndFloatTypes-AlternanteNaming.cs" />
-    <Compile Include="BinaryBitCharVarbinaryTypes-AlternateNaming.cs" />
-    <Compile Include="DataAnnotationTestSqlServe3-AlternateNaming.cs" />
-    <Compile Include="DataAnnotationTestSqlServe5-AlternateNaming.cs" />
     <Compile Include="DataAnnotationTestSqlServe5.cs" />
     <Compile Include="DataAnnotationTestSqlServe3.cs" />
-    <Compile Include="DataAnnotationTestSqlServer1-AlternateNaming.cs" />
-    <Compile Include="DataAnnotationTestSqlServer2-AlternativeNaming.cs" />
-    <Compile Include="DataAnnotationTestSqlServer4-AlternateNaming.cs" />
-    <Compile Include="DataAnnotationTestSqlServer6-AlternateNaming.cs" />
-    <Compile Include="DataAnnotationTestSqlServer7-AlternateNaming.cs" />
-    <Compile Include="DataAnnotationTestSqlServer8-AlternateNaming.cs" />
-    <Compile Include="DatabaseObjectAutoCleanUpAfter2InsertsTestSqlServer-AlternateNaming.cs" />
-    <Compile Include="DatabaseObjectAutoCleanUpAfterHugeInsertsTestSqlServer-AlternateNaming.cs" />
-    <Compile Include="DatabaseObjectAutoCleanUpTestSqlServer-AlternateNaming.cs" />
-    <Compile Include="DatabaseObjectCleanUpSqlServe-AlternateNaming.cs" />
     <Compile Include="DatabaseObjectCleanUpSqlServer.cs" />
-    <Compile Include="DateTypeTestSqlServer-AlternateNaming.cs" />
-    <Compile Include="EventForAllColumnsTestSqlServer-AlternateNaming.cs" />
-    <Compile Include="GuidSmallMoneyTypes - Copy.cs" />
     <Compile Include="Helpers\Constants.cs" />
-    <Compile Include="Issue27-AlternateNaming.cs" />
-    <Compile Include="Issue55 -AlternateNaming.cs" />
-    <Compile Include="MargeTestSqlServer-AlternateNaming.cs" />
     <Compile Include="NoChangesDuringFirstThreeMinutesTestSqlServer2.cs" />
     <Compile Include="NoChangesDuringFirstThreeMinutesTestSqlServer.cs" />
     <Compile Include="DataAnnotationTestSqlServer8.cs" />
@@ -100,13 +80,11 @@
     <Compile Include="EnumTestSqlServer.cs" />
     <Compile Include="DatabaseObjectAutoCleanUpTestSqlServer.cs" />
     <Compile Include="Issue55.cs" />
+    <Compile Include="StatusTestSqlServerUsingAlternateNaming.cs" />
     <Compile Include="TableWithSpaces.cs" />
     <Compile Include="TransactionTestSqlServer.cs" />
     <Compile Include="Issue27.cs" />
     <Compile Include="RowVersionType.cs" />
-    <Compile Include="TriggerTypeTestSqlServer-AlternateNaming.cs" />
-    <Compile Include="UpdateOfUsingLambaTestSqlServer-AlternateNaming.cs" />
-    <Compile Include="UseSchemaOtherThanDBOTestSqlServer-AlternateNaming.cs" />
     <Compile Include="UseSchemaOtherThanDBOTestSqlServer.cs" />
     <Compile Include="NotificationOnlyWhenNewValueIsDifferentFromOldValueSqlServer.cs" />
     <Compile Include="NoTableAndColumnDefinitionsTestSqlServer.cs" />
@@ -133,7 +111,6 @@
     <Compile Include="NVarcharMaxAndVarcharMaxType2.cs" />
     <Compile Include="NVarcharMaxAndVarcharMaxType.cs" />
     <Compile Include="UpdateOfUsingLambaTestSqlServer.cs" />
-    <Compile Include="XmlAsStringSqlServerTestAlternateNaming.cs" />
     <Compile Include="XmlAsStringSqlServerTest.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -174,7 +174,7 @@ namespace TableDependency
 
             this.CheckIfConnectionStringIsValid(connectionString);
             this.CheckIfParameterlessConstructorExistsForModel();
-            if (!executeUserPermissionCheck) this.CheckIfUserHasPermissions(connectionString);
+            if (executeUserPermissionCheck) this.CheckIfUserHasPermissions(connectionString);
 
             _connectionString = connectionString;
             _tableName = this.GetTableName(tableName);
