@@ -32,8 +32,8 @@
     </metadata>
   <files>
 
-    <file src="TableDependency.SqlClient\bin\Debug\TableDependency.dll" target="lib\net451\TableDependency.dll" />
-    <file src="TableDependency.SqlClient\bin\Debug\TableDependency.SqlClient.dll" target ="lib\net451\TableDependency.SqlClient.dll" />
+    <file src="TableDependency.SqlClient\bin\Release\TableDependency.dll" target="lib\net451\TableDependency.dll" />
+    <file src="TableDependency.SqlClient\bin\Release\TableDependency.SqlClient.dll" target ="lib\net451\TableDependency.SqlClient.dll" />
    
   </files>
 </package>
