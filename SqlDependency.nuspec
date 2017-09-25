@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+    <metadata>
+        <id>CustomSqlTableDependency</id>
+        <version>6.1.0</version>
+        <title>CustomSqlTableDependency</title>
+        <authors>Custom</authors>
+        <owners>Custom</owners>
+        <!--<projectUrl>https://tabledependency.codeplex.com/</projectUrl>-->
+        <!--<iconUrl></iconUrl>-->
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>
+          SqlTableDependency is a high-level implementation to access table record change notifications from SQL Server.  This class allows 
+        you to create a dependency to detect changes on a database table. Every change will trigger a notification messages contains values for the updated, 
+        inserted or deleted record, avoid you to execute a further select to update your application data.  If you want to use record change notifications without 
+        paying attention to the underlying Service Broker infrastructure, the SqlTableDependency class is your choice.  The SqlTableDependency class represents 
+        a notification dependency between an application and a SQL Server Table. When you use SqlTableDependency to get notifications, this componenet provides the 
+        low-level implementation creating the Queue and Service Broker.  In this way SqlTableDependency class provides access to notifications without knowing anything 
+        about the underlying Service Broker infrastructure. Once a record changed happens, SqlTableDependency's event subscribers are notified.
+      </description>
+        <summary>
+          SqlTableDependency is a high-level implementation to access table record change notifications from SQL Server. 
+        This class allows you to create a dependency to detect changes on a database table. Every change will trigger a notification messages contains values for the updated, 
+        inserted or deleted record, avoid you to execute a further select to update your application data.
+      </summary>
+        <copyright>2015-2017</copyright>
+        <language>en-GB</language>
+        <tags>SQL Server dependency notifications service broker queue alerts messages</tags>
+        <dependencies>
+            <group targetFramework=".NETFramework4.5.1" />
+        </dependencies>
+    </metadata>
+  <files>
+
+    <file src="TableDependency.SqlClient\bin\Debug\TableDependency.dll" target="lib\net451\TableDependency.dll" />
+    <file src="TableDependency.SqlClient\bin\Debug\TableDependency.SqlClient.dll" target ="lib\net451\TableDependency.SqlClient.dll" />
+   
+  </files>
+</package>

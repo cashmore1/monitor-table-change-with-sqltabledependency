@@ -102,6 +102,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "js", "js", "{079392EB-C573-
 		docs\socials\js\social-share-kit.min.js = docs\socials\js\social-share-kit.min.js
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{19C632CC-FDDD-4FFF-91E9-739DC73F3446}"
+	ProjectSection(SolutionItems) = preProject
+		SqlDependency.nuspec = SqlDependency.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
