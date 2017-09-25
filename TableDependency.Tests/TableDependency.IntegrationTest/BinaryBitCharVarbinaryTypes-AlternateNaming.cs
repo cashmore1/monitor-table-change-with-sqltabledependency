@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -73,12 +74,13 @@ namespace TableDependency.IntegrationTest
             }
         }
         [TestCategory("SqlServer")]
+        [Description("BinaryBitCharVarbinaryModel Test WITH custom object naming token")]
         [TestMethod]
-        public void Test()
+        public void Binary_BitChar_Varbinary_Model_With_Custom_Object_Naming_Test()
         {
+            Console.WriteLine("Setup is complete, StartingBinary BitCharVarbinaryModelTest");
             SqlTableDependency<BinaryBitCharVarbinaryModel> tableDependency = null;
             string naming;
-
             try
             {
                 tableDependency = new SqlTableDependency<BinaryBitCharVarbinaryModel>(_connectionString, TableName,null,null,null,DmlTriggerType.All,false,Constants.NAMINGTOKEN);
@@ -188,6 +190,11 @@ namespace TableDependency.IntegrationTest
                     sqlCommand.Parameters.Add(new SqlParameter("@binary50Column", SqlDbType.Binary) { Size = 50, Value = _checkValues[ChangeType.Insert.ToString()].Item1.binary50Column });
                     sqlCommand.Parameters.Add(new SqlParameter("@bitColumn", SqlDbType.Bit) { Value = _checkValues[ChangeType.Insert.ToString()].Item1.bitColumn.GetValueOrDefault() });
                     sqlCommand.Parameters.Add(new SqlParameter("@varbinary50Column", SqlDbType.VarBinary) { Size = 50, Value = _checkValues[ChangeType.Insert.ToString()].Item1.varbinary50Column });
+                    Console.WriteLine($"Executing {sqlCommand.CommandText} with Parameters");
+                    foreach (SqlParameter x in sqlCommand.Parameters)
+                    {
+                        Console.WriteLine($"Pareameter {x.ParameterName} Value {x.Value}");
+                    }
                     sqlCommand.ExecuteNonQuery();
                     Thread.Sleep(1000);
                 }
@@ -199,6 +206,11 @@ namespace TableDependency.IntegrationTest
                     sqlCommand.Parameters.Add(new SqlParameter("@bitColumn", SqlDbType.Bit) { Value = _checkValues[ChangeType.Update.ToString()].Item1.bitColumn.GetValueOrDefault() });
                     sqlCommand.Parameters.Add(new SqlParameter("@char10Column", SqlDbType.Char) { Size = 10, Value = _checkValues[ChangeType.Update.ToString()].Item1.char10Column });
                     sqlCommand.Parameters.Add(new SqlParameter("@varbinaryMAXColumn", SqlDbType.VarBinary) { Value = _checkValues[ChangeType.Update.ToString()].Item1.varbinaryMAXColumn });
+                    Console.WriteLine($"Executing {sqlCommand.CommandText} with Parameters");
+                    foreach (SqlParameter x in sqlCommand.Parameters)
+                    {
+                        Console.WriteLine($"Pareameter {x.ParameterName} Value {x.Value}");
+                    }
                     sqlCommand.ExecuteNonQuery();
                     Thread.Sleep(1000);
                 }
@@ -206,6 +218,7 @@ namespace TableDependency.IntegrationTest
                 using (var sqlCommand = sqlConnection.CreateCommand())
                 {
                     sqlCommand.CommandText = $"DELETE FROM [{TableName}]";
+                    Console.WriteLine($"Executing {sqlCommand.CommandText}");
                     sqlCommand.ExecuteNonQuery();
                     Thread.Sleep(1000);
                 }

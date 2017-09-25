@@ -72,9 +72,12 @@ namespace TableDependency.IntegrationTest
                 }
             }
         }
+
+
         [TestCategory("SqlServer")]
+        [Description("BinaryBitCharVarbinaryModel Test WITHOUT custom object naming token")]
         [TestMethod]
-        public void Test()
+        public void BinaryBitCharVarbinaryModelTest()
         {
             SqlTableDependency<BinaryBitCharVarbinaryModel> tableDependency = null;
             string naming;
