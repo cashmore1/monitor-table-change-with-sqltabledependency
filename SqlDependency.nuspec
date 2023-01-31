@@ -27,7 +27,7 @@
         <language>en-GB</language>
         <tags>SQL Server dependency notifications service broker queue alerts messages</tags>
         <dependencies>
-            <group targetFramework=".NETFramework4.5.1" />
+            <group targetFramework=".NETFramework4.8" />
         </dependencies>
     </metadata>
   <files>
