@@ -27,13 +27,15 @@ namespace TableDependency.IntegrationTest
     public class StatusTestSqlServer
     {
         private SqlTableDependency<StatusTestSqlServerModel> _tableDependency = null;
-        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
+        private static  string ConnectionString;// = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private const string TableName = "StatusCheckTest";
         private static IDictionary<TableDependencyStatus, bool> statuses = new Dictionary<TableDependencyStatus, bool>();
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
         {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            ConnectionString = config.ConnectionStrings.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
             using (var sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();

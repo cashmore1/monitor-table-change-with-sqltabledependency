@@ -28,13 +28,15 @@ namespace TableDependency.IntegrationTest
     [TestClass]
     public class DataAnnotationTestSqlServer4
     {
-        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
+        private static  string ConnectionString;// = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static int _counter;
         private static readonly Dictionary<string, Tuple<DataAnnotationTestSelServerModel4, DataAnnotationTestSelServerModel4>> CheckValues = new Dictionary<string, Tuple<DataAnnotationTestSelServerModel4, DataAnnotationTestSelServerModel4>>();
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
         {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            ConnectionString = config.ConnectionStrings.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
             using (var sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();

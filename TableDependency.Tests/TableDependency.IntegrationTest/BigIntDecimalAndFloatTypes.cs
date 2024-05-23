@@ -25,13 +25,18 @@ namespace TableDependency.IntegrationTest
     [TestClass]
     public class BigIntDecimalAndFloatTypesTestSqlServer
     {
-        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
+      
+        private static string ConnectionString;// = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static string TableName = "CheckDecimalAndFloat";
         private static readonly Dictionary<string, Tuple<BigIntDecimalAndFloatModel, BigIntDecimalAndFloatModel>> CheckValues = new Dictionary<string, Tuple<BigIntDecimalAndFloatModel, BigIntDecimalAndFloatModel>>();
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
         {
+            var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
+             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+             ConnectionString = config.ConnectionStrings.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
+             var x = ConfigurationManager.ConnectionStrings.CurrentConfiguration.ConnectionStrings.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
             using (var sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();

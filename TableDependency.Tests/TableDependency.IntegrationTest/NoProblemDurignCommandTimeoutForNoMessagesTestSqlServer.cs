@@ -24,12 +24,14 @@ namespace TableDependency.IntegrationTest
     {
 
         private static string _dbObjectsNaming;
-        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
+        private static string ConnectionString;// = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static string TableName = "Check_Model";
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
         {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            ConnectionString = config.ConnectionStrings.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
             using (var sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();
@@ -43,25 +45,25 @@ namespace TableDependency.IntegrationTest
                 }
             }
         }
+        //TODO: Figure out a similar way to do this.
+        //[TestCategory("SqlServer")]
+        //[TestMethod()]
+        //public void Test()
+        //{
+        //    var domaininfo = new AppDomainSetup();
+        //    /domaininfo.ApplicationBase = Environment.CurrentDirectory;
+        //    var adevidence = AppDomain.CurrentDomain.Evidence;
+        //    var domain = AppDomain.CreateDomain("TableDependencyDomaing", adevidence, domaininfo);
+        //    var otherDomainObject = (RunsInAnotherAppDomainNoMessage) domain.CreateInstanceAndUnwrap(typeof (RunsInAnotherAppDomainNoMessage).Assembly.FullName, typeof (RunsInAnotherAppDomainNoMessage).FullName);
+        //    _dbObjectsNaming = otherDomainObject.RunTableDependency(ConnectionString, TableName);
+        //    Thread.Sleep(4*60*1000);
+        //    var status = otherDomainObject.GetTableDependencyStatus();
+        //    AppDomain.Unload(domain);
+        //    Thread.Sleep(3*60*1000);
 
-        [TestCategory("SqlServer")]
-        [TestMethod()]
-        public void Test()
-        {
-            var domaininfo = new AppDomainSetup();
-            domaininfo.ApplicationBase = Environment.CurrentDirectory;
-            var adevidence = AppDomain.CurrentDomain.Evidence;
-            var domain = AppDomain.CreateDomain("TableDependencyDomaing", adevidence, domaininfo);
-            var otherDomainObject = (RunsInAnotherAppDomainNoMessage) domain.CreateInstanceAndUnwrap(typeof (RunsInAnotherAppDomainNoMessage).Assembly.FullName, typeof (RunsInAnotherAppDomainNoMessage).FullName);
-            _dbObjectsNaming = otherDomainObject.RunTableDependency(ConnectionString, TableName);
-            Thread.Sleep(4*60*1000);
-            var status = otherDomainObject.GetTableDependencyStatus();
-            AppDomain.Unload(domain);
-            Thread.Sleep(3*60*1000);
-
-            Assert.IsTrue(status != TableDependencyStatus.StopDueToError && status != TableDependencyStatus.StopDueToCancellation);
-            Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(_dbObjectsNaming));
-        }
+        //    Assert.IsTrue(status != TableDependencyStatus.StopDueToError && status != TableDependencyStatus.StopDueToCancellation);
+        //    Assert.IsTrue(SqlServerHelper.AreAllDbObjectDisposed(_dbObjectsNaming));
+        //}
 
         [ClassCleanup()]
         public static void ClassCleanup()

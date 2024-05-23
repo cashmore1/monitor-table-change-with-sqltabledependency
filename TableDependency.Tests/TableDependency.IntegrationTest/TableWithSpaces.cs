@@ -22,7 +22,7 @@ namespace TableDependency.IntegrationTest
     [TestClass]
     public class TableWithSpaces
     {
-        private static string _connectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
+        private static string _connectionString;// = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private const string TableName = "BranchABC$Sales Invoice Header";
         private static int _counter;
         private static Dictionary<string, Tuple<EventForAllColumnsTestSqlServerModel, EventForAllColumnsTestSqlServerModel>> _checkValues = new Dictionary<string, Tuple<EventForAllColumnsTestSqlServerModel, EventForAllColumnsTestSqlServerModel>>();
@@ -30,6 +30,8 @@ namespace TableDependency.IntegrationTest
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
         {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            _connectionString = config.ConnectionStrings.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
             using (var sqlConnection = new SqlConnection(_connectionString))
             {
                 sqlConnection.Open();

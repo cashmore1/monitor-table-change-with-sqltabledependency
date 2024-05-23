@@ -29,7 +29,7 @@ namespace TableDependency.IntegrationTest
     [TestClass]
     public class MultiDmlOperationsTestSqlServer
     {
-        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
+        private static  string ConnectionString;// = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private const string TableName = "MultiDmlOperations";
         private static readonly List<MultiDmlOperationsTestSqlServerModel> ModifiedValues = new List<MultiDmlOperationsTestSqlServerModel>();
         private static readonly List<MultiDmlOperationsTestSqlServerModel> InitialValues = new List<MultiDmlOperationsTestSqlServerModel>();
@@ -37,6 +37,8 @@ namespace TableDependency.IntegrationTest
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
         {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            ConnectionString = config.ConnectionStrings.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
             InitialValues.Add(new MultiDmlOperationsTestSqlServerModel() { Name = "CHRISTIAN", Surname = "DEL BIANCO" });
             InitialValues.Add(new MultiDmlOperationsTestSqlServerModel() { Name = "VELIA", Surname = "CECCARELLI" });
             InitialValues.Add(new MultiDmlOperationsTestSqlServerModel() { Name = "ALFREDINA", Surname = "BRUSCHI" });

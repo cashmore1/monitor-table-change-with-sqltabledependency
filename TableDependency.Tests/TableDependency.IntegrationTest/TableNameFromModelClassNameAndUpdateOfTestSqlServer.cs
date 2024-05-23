@@ -26,7 +26,7 @@ namespace TableDependency.IntegrationTest
     [TestClass]
     public class TableNameFromModelClassNameAndUpdateOfTestSqlServer
     {
-        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
+        private static string ConnectionString;// = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static readonly string TableName = typeof(AAA_Item3).Name.ToUpper();
         private static readonly Dictionary<string, Tuple<AAA_Item3, AAA_Item3>> CheckValues = new Dictionary<string, Tuple<AAA_Item3, AAA_Item3>>();
         private static int _counter = 0;
@@ -34,6 +34,8 @@ namespace TableDependency.IntegrationTest
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
         {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            ConnectionString = config.ConnectionStrings.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
             using (var sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();

@@ -11,8 +11,9 @@ namespace TableDependency.IntegrationTest.Helpers.SqlServer
         {
             // 10 seconds
             Thread.Sleep(10000);
-
-            using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLServer2008 sa"].ConnectionString))
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            var connectionString = config.ConnectionStrings.ConnectionStrings["SqlServer2008 sa"].ConnectionString;
+            using (var sqlConnection = new SqlConnection(connectionString))
             {
                 sqlConnection.Open();
                 using (var sqlCommand = sqlConnection.CreateCommand())
@@ -35,8 +36,9 @@ namespace TableDependency.IntegrationTest.Helpers.SqlServer
         {
             // 10 seconds
             Thread.Sleep(10000);
-
-            using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLServer2008 sa"].ConnectionString))
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            var connectionString = config.ConnectionStrings.ConnectionStrings["SqlServer2008 sa"].ConnectionString;
+            using (var sqlConnection = new SqlConnection(connectionString))
             {
                 sqlConnection.Open();
                 using (var sqlCommand = sqlConnection.CreateCommand())

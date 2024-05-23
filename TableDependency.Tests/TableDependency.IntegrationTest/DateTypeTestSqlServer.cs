@@ -23,13 +23,15 @@ namespace TableDependency.IntegrationTest.TypeChecks
     [TestClass]
     public class DateTypeTest
     {
-        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
+        private static  string ConnectionString;// = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static string TableName = "Test";
         private static readonly Dictionary<string, Tuple<DateTypeTestModel, DateTypeTestModel>> CheckValues = new Dictionary<string, Tuple<DateTypeTestModel, DateTypeTestModel>>();
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
         {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            ConnectionString = config.ConnectionStrings.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
             using (var sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();

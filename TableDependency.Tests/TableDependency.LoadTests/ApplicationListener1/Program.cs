@@ -30,7 +30,7 @@ namespace ApplicationListener1
 
         private static void Main()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
+            var connectionString = ConfigurationManager.ConnectionStrings.CurrentConfiguration.ConnectionStrings.ConnectionStrings["connectionString"].ConnectionString;
             DropAndCreateTable(connectionString);
 
             using (var tableDependency = new SqlTableDependency<LoadTest>(connectionString))

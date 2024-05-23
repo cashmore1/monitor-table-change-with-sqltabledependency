@@ -28,13 +28,15 @@ namespace TableDependency.IntegrationTest
     [TestClass]
     public class GuidSmallMoneyTypes
     {
-        private static string _connectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
+        private static string _connectionString;// = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static string TableName = "CheckGuidSmallMoneyTimeStampTypes";
         private static Dictionary<string, Tuple<ModelGuidSmallMoneyTypes, ModelGuidSmallMoneyTypes>> _checkValues = new Dictionary<string, Tuple<ModelGuidSmallMoneyTypes, ModelGuidSmallMoneyTypes>>();
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
         {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            _connectionString = config.ConnectionStrings.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
             using (var sqlConnection = new SqlConnection(_connectionString))
             {
                 sqlConnection.Open();

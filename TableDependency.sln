@@ -1,11 +1,11 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableDependency", "TableDependency\TableDependency.csproj", "{0A46A45A-BE9B-455F-A6D1-183C07FEF4BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TableDependency", "TableDependency\TableDependency.csproj", "{0A46A45A-BE9B-455F-A6D1-183C07FEF4BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableDependency.SqlClient", "TableDependency.SqlClient\TableDependency.SqlClient.csproj", "{3B201820-CB8F-41A1-8430-0C806BCF7494}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TableDependency.SqlClient", "TableDependency.SqlClient\TableDependency.SqlClient.csproj", "{3B201820-CB8F-41A1-8430-0C806BCF7494}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LoadTests", "LoadTests", "{0388953A-AF9E-4718-A9B3-1AB5CABCE7FB}"
 EndProject
@@ -15,15 +15,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{48852C1F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Development", "Development", "{BAF6F0A5-FEA5-46F6-93B3-AD7D377F2072}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationListener1", "TableDependency.Tests\TableDependency.LoadTests\ApplicationListener1\ApplicationListener1.csproj", "{6046B310-27AA-43A8-9B44-59EF2A45C7DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationListener1", "TableDependency.Tests\TableDependency.LoadTests\ApplicationListener1\ApplicationListener1.csproj", "{6046B310-27AA-43A8-9B44-59EF2A45C7DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationWriter1", "TableDependency.Tests\TableDependency.LoadTests\ApplicationWriter1\ApplicationWriter1.csproj", "{FD1BB916-453D-4D39-B7B1-B675801C3ED3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationWriter1", "TableDependency.Tests\TableDependency.LoadTests\ApplicationWriter1\ApplicationWriter1.csproj", "{FD1BB916-453D-4D39-B7B1-B675801C3ED3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationWriter2", "TableDependency.Tests\TableDependency.LoadTests\ApplicationWriter2\ApplicationWriter2.csproj", "{02847705-A2CF-4EF3-AEEB-072D84222BFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationWriter2", "TableDependency.Tests\TableDependency.LoadTests\ApplicationWriter2\ApplicationWriter2.csproj", "{02847705-A2CF-4EF3-AEEB-072D84222BFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableDependency.IntegrationTest", "TableDependency.Tests\TableDependency.IntegrationTest\TableDependency.IntegrationTest.csproj", "{EFC8D631-311A-4E29-91C4-2DEB5B756BB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TableDependency.IntegrationTest", "TableDependency.Tests\TableDependency.IntegrationTest\TableDependency.IntegrationTest.csproj", "{EFC8D631-311A-4E29-91C4-2DEB5B756BB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplicationSqlServer", "TableDependency.Tests\TableDependency.DevelopmentTests\ConsoleApplicationSqlServer.csproj", "{D3EFDFCF-49DC-4BCA-8B7C-97E623687BB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApplicationSqlServer", "TableDependency.Tests\TableDependency.DevelopmentTests\ConsoleApplicationSqlServer.csproj", "{D3EFDFCF-49DC-4BCA-8B7C-97E623687BB0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{6C9E1520-22CC-4C41-AF71-4DC4D08DA77B}"
 	ProjectSection(SolutionItems) = preProject

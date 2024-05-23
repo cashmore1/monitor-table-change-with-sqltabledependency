@@ -27,13 +27,13 @@
         <language>en-GB</language>
         <tags>SQL Server dependency notifications service broker queue alerts messages</tags>
         <dependencies>
-            <group targetFramework=".NETFramework4.6" />
+            <group targetFramework=".NET6.0" />
         </dependencies>
     </metadata>
   <files>
 
-    <file src="TableDependency.SqlClient\bin\Release\TableDependency.dll" target="lib\net4.6\TableDependency.dll" />
-    <file src="TableDependency.SqlClient\bin\Release\TableDependency.SqlClient.dll" target ="lib\net4.6\TableDependency.SqlClient.dll" />
+    <file src="TableDependency.SqlClient\bin\Release\net6.0\TableDependency.dll" target="lib\net6.0\TableDependency.dll" />
+    <file src="TableDependency.SqlClient\bin\Release\net6.0\TableDependency.SqlClient.dll" target ="lib\net6.0\TableDependency.SqlClient.dll" />
    
   </files>
 </package>

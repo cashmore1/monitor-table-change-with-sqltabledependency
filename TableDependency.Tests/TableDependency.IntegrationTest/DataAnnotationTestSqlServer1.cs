@@ -28,7 +28,7 @@ namespace TableDependency.IntegrationTest
     [TestClass]
     public class DataAnnotationTestSqlServer1
     {
-        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
+        private static  string ConnectionString;// = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static readonly string TableName = "ANItemsTableSQL";
         private static int _counter;
         private static readonly Dictionary<string, Tuple<DataAnnotationTestSelServerModel, DataAnnotationTestSelServerModel>> CheckValues = new Dictionary<string, Tuple<DataAnnotationTestSelServerModel, DataAnnotationTestSelServerModel>>();
@@ -36,6 +36,8 @@ namespace TableDependency.IntegrationTest
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
         {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            ConnectionString = config.ConnectionStrings.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
             using (var sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();
