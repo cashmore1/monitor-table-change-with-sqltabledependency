@@ -30,6 +30,7 @@ namespace TableDependency.IntegrationTest
         private static  string ConnectionString;// = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private const string TableName = "StatusCheckTest";
         private static IDictionary<TableDependencyStatus, bool> statuses = new Dictionary<TableDependencyStatus, bool>();
+        public  TestContext TestContext { get; set; }
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -54,10 +55,21 @@ namespace TableDependency.IntegrationTest
                 }
             }
         }
+       
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
+        }
 
         [TestInitialize()]
         public void TestInitialize()
         {
+            Console.Write(TestContext.DeploymentDirectory);
             statuses.Add(TableDependencyStatus.Starting, false);
             statuses.Add(TableDependencyStatus.Started, false);
             statuses.Add(TableDependencyStatus.WaitingForNotification, false);

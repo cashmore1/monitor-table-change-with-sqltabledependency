@@ -26,6 +26,7 @@ namespace TableDependency.IntegrationTest
         private static string _dbObjectsNaming;
         private static string ConnectionString;// = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static string TableName = "Check_Model";
+        public TestContext TestContext { get; set; }
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -44,6 +45,21 @@ namespace TableDependency.IntegrationTest
                     sqlCommand.ExecuteNonQuery();
                 }
             }
+        }
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            Console.Write(TestContext.DeploymentDirectory);
+        }
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
         }
         //TODO: Figure out a similar way to do this.
         //[TestCategory("SqlServer")]

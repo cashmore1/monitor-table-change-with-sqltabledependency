@@ -25,6 +25,7 @@ namespace TableDependency.IntegrationTest
         private const string SchemaName = "test_schema";
         private static int _counter;
         private static Dictionary<string, Tuple<SchemaNotDboTestSqlServerModel, SchemaNotDboTestSqlServerModel>> _checkValues = new Dictionary<string, Tuple<SchemaNotDboTestSqlServerModel, SchemaNotDboTestSqlServerModel>>();
+        public TestContext TestContext { get; set; }
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -49,6 +50,20 @@ namespace TableDependency.IntegrationTest
                     sqlCommand.ExecuteNonQuery();
                 }
             }
+        }
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            Console.Write(TestContext.DeploymentDirectory);
+        }
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
         }
 
         [ClassCleanup()]

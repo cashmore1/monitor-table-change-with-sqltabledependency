@@ -21,6 +21,7 @@ namespace TableDependency.IntegrationTest
     {
         private const string TableName = "Issue27Model";
         private static string ConnectionString;// = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
+   
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -38,6 +39,20 @@ namespace TableDependency.IntegrationTest
                     sqlCommand.ExecuteNonQuery();
                 }
             }
+        }
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            Console.Write(TestContext.DeploymentDirectory);
+        }
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
         }
 
         [ClassCleanup()]

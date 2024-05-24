@@ -24,6 +24,8 @@ namespace TableDependency.IntegrationTest
         private static string _dbObjectsNaming;
         private static  string ConnectionString;// = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static string TableName = "AAADCheck_Model";
+        public TestContext TestContext { get; set; }
+
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -47,6 +49,16 @@ namespace TableDependency.IntegrationTest
                     sqlCommand.ExecuteNonQuery();
                 }
             }
+        }
+       
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
         }
 
         [TestInitialize()]

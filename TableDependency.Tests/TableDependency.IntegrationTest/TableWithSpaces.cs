@@ -26,6 +26,7 @@ namespace TableDependency.IntegrationTest
         private const string TableName = "BranchABC$Sales Invoice Header";
         private static int _counter;
         private static Dictionary<string, Tuple<EventForAllColumnsTestSqlServerModel, EventForAllColumnsTestSqlServerModel>> _checkValues = new Dictionary<string, Tuple<EventForAllColumnsTestSqlServerModel, EventForAllColumnsTestSqlServerModel>>();
+        public TestContext TestContext { get; set; }
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -50,9 +51,19 @@ namespace TableDependency.IntegrationTest
             }
         }
 
-        [TestInitialize()]
+        [TestInitialize]
         public void TestInitialize()
         {
+            Console.Write(TestContext.DeploymentDirectory);
+        }
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
         }
 
         [ClassCleanup()]

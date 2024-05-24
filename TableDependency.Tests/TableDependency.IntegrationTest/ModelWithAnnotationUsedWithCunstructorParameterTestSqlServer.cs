@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -29,6 +30,7 @@ namespace TableDependency.IntegrationTest
         private static readonly string TableName = "AAAA";
         private static int _counter;
         private static readonly Dictionary<string, ModelWithAnnotationUsedWithCunstructorParameterTestSqlServerModel> CheckValues = new Dictionary<string, ModelWithAnnotationUsedWithCunstructorParameterTestSqlServerModel>();
+        public TestContext TestContext { get; set; }
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -48,10 +50,21 @@ namespace TableDependency.IntegrationTest
                 }
             }
         }
+        [TestInitialize]
+      
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
+        }
 
         [TestInitialize()]
         public void TestInitialize()
         {
+            Console.Write(TestContext.DeploymentDirectory);
             CheckValues.Add(ChangeType.Insert.ToString(), new ModelWithAnnotationUsedWithCunstructorParameterTestSqlServerModel());
             CheckValues.Add(ChangeType.Update.ToString(), new ModelWithAnnotationUsedWithCunstructorParameterTestSqlServerModel());
             CheckValues.Add(ChangeType.Delete.ToString(), new ModelWithAnnotationUsedWithCunstructorParameterTestSqlServerModel());

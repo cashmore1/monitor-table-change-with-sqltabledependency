@@ -31,6 +31,7 @@ namespace TableDependency.IntegrationTest
         private static  string ConnectionString;// = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static string TableName = "AXXTest";
         private static readonly Dictionary<string, Tuple<NVarcharMaxAndVarcharMaxModel2, NVarcharMaxAndVarcharMaxModel2>> CheckValues = new Dictionary<string, Tuple<NVarcharMaxAndVarcharMaxModel2, NVarcharMaxAndVarcharMaxModel2>>();
+        public TestContext TestContext { get; set; }
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -49,6 +50,20 @@ namespace TableDependency.IntegrationTest
                     sqlCommand.ExecuteNonQuery();
                 }
             }
+        }
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            Console.Write(TestContext.DeploymentDirectory);
+        }
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
         }
 
         [ClassCleanup()]

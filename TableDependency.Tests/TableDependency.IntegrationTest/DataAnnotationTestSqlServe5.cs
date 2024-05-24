@@ -31,6 +31,8 @@ namespace TableDependency.IntegrationTest
         private static string ConnectionString;// = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static int _counter;
         private static readonly Dictionary<string, Tuple<DataAnnotationTestSelServerModel5, DataAnnotationTestSelServerModel5>> CheckValues = new Dictionary<string, Tuple<DataAnnotationTestSelServerModel5, DataAnnotationTestSelServerModel5>>();
+        public TestContext TestContext { get; set; }
+
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -54,8 +56,16 @@ namespace TableDependency.IntegrationTest
         [TestInitialize()]
         public void TestInitialize()
         {
+            Console.WriteLine(TestContext.DeploymentDirectory);
         }
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
 
+
+        }
         [ClassCleanup()]
         public static void ClassCleanup()
         {

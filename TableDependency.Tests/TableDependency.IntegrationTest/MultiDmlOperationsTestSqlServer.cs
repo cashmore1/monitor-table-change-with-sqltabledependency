@@ -33,6 +33,7 @@ namespace TableDependency.IntegrationTest
         private const string TableName = "MultiDmlOperations";
         private static readonly List<MultiDmlOperationsTestSqlServerModel> ModifiedValues = new List<MultiDmlOperationsTestSqlServerModel>();
         private static readonly List<MultiDmlOperationsTestSqlServerModel> InitialValues = new List<MultiDmlOperationsTestSqlServerModel>();
+        public TestContext TestContext { get; set; }
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -56,10 +57,21 @@ namespace TableDependency.IntegrationTest
                 }
             }
         }
+       
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
+        }
 
         [TestInitialize()]
         public void TestInitialize()
         {
+            Console.Write(TestContext.DeploymentDirectory);
             using (var sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();

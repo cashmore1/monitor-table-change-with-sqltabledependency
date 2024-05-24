@@ -32,6 +32,7 @@ namespace TableDependency.IntegrationTest
 
         private const string XmlForInsert = @"<?xml version=""1.0"" encoding=""utf-8""?><catalog><book id=""1""><author>Gambardella, Matthew</author><title>XML Developer's Guide</title></book></catalog>";
         private const string XmlForUpdate = @"<?xml version=""1.0"" encoding=""utf-8""?><catalog><book id=""2""><author>Ridley, Matthew</author><title>XML Developer's Guide</title></book></catalog>";
+        public TestContext TestContext { get; set; }
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -50,6 +51,21 @@ namespace TableDependency.IntegrationTest
                     sqlCommand.ExecuteNonQuery();
                 }
             }
+        }
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            Console.Write(TestContext.DeploymentDirectory);
+        }
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
         }
 
         [ClassCleanup()]

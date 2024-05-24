@@ -30,6 +30,7 @@ namespace TableDependency.IntegrationTest
         private const string TableName = "CheckTriggerType";
         private static int _counter;
         private static Dictionary<string, Tuple<TriggerTypeTestSqlServerModel, TriggerTypeTestSqlServerModel>> CheckValues = new Dictionary<string, Tuple<TriggerTypeTestSqlServerModel, TriggerTypeTestSqlServerModel>>();
+        public TestContext TestContext { get; set; }
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -53,10 +54,21 @@ namespace TableDependency.IntegrationTest
                 }
             }
         }
+   
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
+        }
 
         [TestInitialize()]
         public void TestInitialize()
         {
+            Console.Write(TestContext.DeploymentDirectory);
             using (var sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();

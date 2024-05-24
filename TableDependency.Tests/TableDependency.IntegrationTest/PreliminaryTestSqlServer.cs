@@ -24,6 +24,7 @@ namespace TableDependency.IntegrationTest
         private const string TableName = "PreliminaryCheckTest";
         private const string InvalidValidConnectionString = "data source=.;initial catalog=NotExistingDB;integrated security=True";
         private const string InvalidTableName = "NotExistingTable";
+        public TestContext TestContext { get; set; }
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -48,10 +49,21 @@ namespace TableDependency.IntegrationTest
                 }
             }
         }
+        
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
+        }
 
         [TestInitialize()]
         public void TestInitialize()
         {
+            Console.Write(TestContext.DeploymentDirectory);
             using (var sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();

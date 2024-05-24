@@ -32,6 +32,7 @@ namespace TableDependency.IntegrationTest
         private static readonly string TableName = "ANItemsTableSQL";
         private static int _counter;
         private static readonly Dictionary<string, Tuple<DataAnnotationTestSelServerModel, DataAnnotationTestSelServerModel>> CheckValues = new Dictionary<string, Tuple<DataAnnotationTestSelServerModel, DataAnnotationTestSelServerModel>>();
+        public TestContext TestContext { get; set; }
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -55,6 +56,7 @@ namespace TableDependency.IntegrationTest
         [TestInitialize()]
         public void TestInitialize()
         {
+            Console.Write(TestContext.TestLogsDir);
         }
 
         [ClassCleanup()]
@@ -69,6 +71,15 @@ namespace TableDependency.IntegrationTest
                     sqlCommand.ExecuteNonQuery();
                 }
             }
+        }
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
         }
 
         [TestCategory("SqlServer")]

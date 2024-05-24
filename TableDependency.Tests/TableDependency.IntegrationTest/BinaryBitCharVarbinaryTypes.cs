@@ -31,7 +31,7 @@ namespace TableDependency.IntegrationTest
         private static string _connectionString;
         private static string TableName = "Test";
         private static Dictionary<string, Tuple<BinaryBitCharVarbinaryModel, BinaryBitCharVarbinaryModel>> _checkValues = new Dictionary<string, Tuple<BinaryBitCharVarbinaryModel, BinaryBitCharVarbinaryModel>>();
-
+        public TestContext TestContext { get; set; }
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
         {
@@ -59,6 +59,15 @@ namespace TableDependency.IntegrationTest
         [TestInitialize()]
         public void TestInitialize()
         {
+            Console.Write(TestContext.TestLogsDir);
+        }
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
         }
 
         [ClassCleanup()]

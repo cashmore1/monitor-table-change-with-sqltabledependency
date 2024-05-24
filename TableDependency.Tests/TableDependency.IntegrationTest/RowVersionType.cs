@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace TableDependency.IntegrationTest
         private static string TableName = "RowVersionTest";
         private byte[] RowVersionInsert = null;
         private byte[] RowVersionUpdate = null;
+        public TestContext TestContext { get; set; }
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -44,11 +46,21 @@ namespace TableDependency.IntegrationTest
             }
         }
 
-        [TestInitialize()]
+        [TestInitialize]
         public void TestInitialize()
         {
+            Console.Write(TestContext.DeploymentDirectory);
         }
-        
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
+        }
+
         [ClassCleanup()]
         public static void ClassCleanup()
         {

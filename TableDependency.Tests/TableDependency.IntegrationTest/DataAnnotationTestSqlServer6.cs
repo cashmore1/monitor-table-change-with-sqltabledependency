@@ -31,6 +31,8 @@ namespace TableDependency.IntegrationTest
         private static int _counter;
         private static readonly Dictionary<string, Tuple<DataAnnotationTestSelServerModel6, DataAnnotationTestSelServerModel6>> CheckValues = new Dictionary<string, Tuple<DataAnnotationTestSelServerModel6, DataAnnotationTestSelServerModel6>>();
 
+        private TestContext TestContext { get; set; }
+
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
         {
@@ -53,6 +55,15 @@ namespace TableDependency.IntegrationTest
         [TestInitialize()]
         public void TestInitialize()
         {
+            Console.Write(TestContext.DeploymentDirectory);
+        }
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
         }
 
         [ClassCleanup()]

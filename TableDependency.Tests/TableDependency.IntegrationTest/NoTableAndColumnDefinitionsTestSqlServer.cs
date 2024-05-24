@@ -28,6 +28,7 @@ namespace TableDependency.IntegrationTest
         private const string TableName = "NoTableAndColumnDefinitionsTestSqlServerModel";
         private static int _counter;
         private static readonly Dictionary<string, Tuple<NoTableAndColumnDefinitionsTestSqlServerModel, NoTableAndColumnDefinitionsTestSqlServerModel>> CheckValues = new Dictionary<string, Tuple<NoTableAndColumnDefinitionsTestSqlServerModel, NoTableAndColumnDefinitionsTestSqlServerModel>>();
+        public TestContext TestContext { get; set; }
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -48,9 +49,19 @@ namespace TableDependency.IntegrationTest
             }
         }
 
-        [TestInitialize()]
+        [TestInitialize]
         public void TestInitialize()
         {
+            Console.Write(TestContext.DeploymentDirectory);
+        }
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
         }
 
         [ClassCleanup()]

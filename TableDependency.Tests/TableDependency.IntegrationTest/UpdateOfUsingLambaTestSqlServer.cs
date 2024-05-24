@@ -29,6 +29,7 @@ namespace TableDependency.IntegrationTest
         private static readonly string TableName = typeof(UpdateOfUsingLambaTestSqlServerModel).Name.ToUpper();
         private static int _counter = 0;
         private static readonly Dictionary<string, Tuple<UpdateOfUsingLambaTestSqlServerModel, UpdateOfUsingLambaTestSqlServerModel>> CheckValues = new Dictionary<string, Tuple<UpdateOfUsingLambaTestSqlServerModel, UpdateOfUsingLambaTestSqlServerModel>>();
+        public TestContext TestContext { get; set; }
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -54,9 +55,19 @@ namespace TableDependency.IntegrationTest
             }
         }
 
-        [TestInitialize()]
+        [TestInitialize]
         public void TestInitialize()
         {
+            Console.Write(TestContext.DeploymentDirectory);
+        }
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
         }
 
         [ClassCleanup()]

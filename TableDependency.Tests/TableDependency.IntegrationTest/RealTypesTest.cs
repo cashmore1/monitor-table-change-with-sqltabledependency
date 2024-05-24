@@ -23,6 +23,7 @@ namespace TableDependency.IntegrationTest
         private static string _connectionString;// = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static string TableName = "Real";
         private static Dictionary<string, Tuple<CheckRealTypesModel, CheckRealTypesModel>> _checkValues = new Dictionary<string, Tuple<CheckRealTypesModel, CheckRealTypesModel>>();
+        public TestContext TestContext { get; set; }
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -44,9 +45,19 @@ namespace TableDependency.IntegrationTest
             }
         }
 
-        [TestInitialize()]
+        [TestInitialize]
         public void TestInitialize()
         {
+            Console.Write(TestContext.DeploymentDirectory);
+        }
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
         }
 
         [ClassCleanup()]

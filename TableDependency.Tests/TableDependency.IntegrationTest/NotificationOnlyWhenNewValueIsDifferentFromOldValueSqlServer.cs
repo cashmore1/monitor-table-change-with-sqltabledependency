@@ -30,6 +30,7 @@ namespace TableDependency.IntegrationTest
         private static List<Tuple<ABCTableModel, ABCTableModel>> _checkValues1 = new List<Tuple<ABCTableModel, ABCTableModel>>();
         private static List<Tuple<ABCTableModel, ABCTableModel>> _checkValues2 = new List<Tuple<ABCTableModel, ABCTableModel>>();
         private static List<Tuple<ABCTableModel, ABCTableModel>> _checkValues3 = new List<Tuple<ABCTableModel, ABCTableModel>>();
+        public TestContext TestContext { get; set; }
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -49,10 +50,19 @@ namespace TableDependency.IntegrationTest
                 }
             }
         }
-
-        [TestInitialize()]
+        [TestInitialize]
         public void TestInitialize()
         {
+            Console.Write(TestContext.DeploymentDirectory);
+        }
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
         }
 
         [ClassCleanup()]

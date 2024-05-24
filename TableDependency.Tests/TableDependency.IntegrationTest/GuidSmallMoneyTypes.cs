@@ -31,6 +31,7 @@ namespace TableDependency.IntegrationTest
         private static string _connectionString;// = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static string TableName = "CheckGuidSmallMoneyTimeStampTypes";
         private static Dictionary<string, Tuple<ModelGuidSmallMoneyTypes, ModelGuidSmallMoneyTypes>> _checkValues = new Dictionary<string, Tuple<ModelGuidSmallMoneyTypes, ModelGuidSmallMoneyTypes>>();
+        public TestContext TestContext { get; set; }
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -56,6 +57,21 @@ namespace TableDependency.IntegrationTest
                     sqlCommand.ExecuteNonQuery();
                 }
             }
+        }
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            Console.Write(TestContext.DeploymentDirectory);
+        }
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
         }
 
         [ClassCleanup()]

@@ -46,6 +46,20 @@ namespace TableDependency.IntegrationTest
                 }
             }
         }
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            Console.Write(TestContext.DeploymentDirectory);
+        }
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
+        }
 
         [ClassCleanup()]
         public static void ClassCleanup()

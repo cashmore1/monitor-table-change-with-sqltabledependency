@@ -24,6 +24,7 @@ namespace TableDependency.IntegrationTest
     {
         private static  string ConnectionString;// = ConfigurationManager.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
         private static string TableName = "DatabaseObjectAutoCleanUpAfterHugeInsertsTestSqlServerModel";
+        public TestContext TestContext { get; set; }
 
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
@@ -43,6 +44,21 @@ namespace TableDependency.IntegrationTest
                 }
                 sqlConnection.Close();
             }
+        }
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            Console.Write(TestContext.DeploymentDirectory);
+        }
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            Console.WriteLine(TestContext.TestName);
+            Console.WriteLine(TestContext.CurrentTestOutcome);
+
+
         }
 
         [ClassCleanup]
