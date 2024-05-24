@@ -36,7 +36,7 @@ namespace TableDependency.IntegrationTest
             var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
              Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
              ConnectionString = config.ConnectionStrings.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
-             var x = ConfigurationManager.ConnectionStrings.CurrentConfiguration.ConnectionStrings.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
+             //var x = ConfigurationManager.ConnectionStrings.CurrentConfiguration.ConnectionStrings.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
             using (var sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();
