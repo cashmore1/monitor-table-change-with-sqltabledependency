@@ -32,6 +32,7 @@ namespace TableDependency.IntegrationTest
         {
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             ConnectionString = config.ConnectionStrings.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
+            Console.WriteLine("Using ConnetionString {connstring}", ConnectionString);
             using (var sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();
@@ -64,6 +65,7 @@ namespace TableDependency.IntegrationTest
         [TestInitialize()]
         public void TestInitialize()
         {
+            Console.WriteLine(TestContext.DeploymentDirectory);
             using (var sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();

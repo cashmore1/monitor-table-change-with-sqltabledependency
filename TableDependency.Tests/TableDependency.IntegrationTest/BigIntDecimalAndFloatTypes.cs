@@ -35,10 +35,13 @@ namespace TableDependency.IntegrationTest
         [ClassInitialize()]
         public static void ClassInitialize(TestContext testContext)
         {
+          
             var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
              Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
              ConnectionString = config.ConnectionStrings.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
-             //var x = ConfigurationManager.ConnectionStrings.CurrentConfiguration.ConnectionStrings.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
+            //var x = ConfigurationManager.ConnectionStrings.CurrentConfiguration.ConnectionStrings.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
+
+            Console.WriteLine("Using ConnetionString {connstring}", ConnectionString);
             using (var sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();
@@ -60,7 +63,7 @@ namespace TableDependency.IntegrationTest
         [TestInitialize()]
         public void TestInitialize()
         {
-            Console.Write(TestContext.TestLogsDir);
+            Console.WriteLine(TestContext.TestLogsDir);
             
         }
         [TestCleanup]

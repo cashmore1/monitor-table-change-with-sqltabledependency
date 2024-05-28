@@ -43,7 +43,7 @@ namespace TableDependency.IntegrationTest
             InitialValues.Add(new MultiDmlOperationsTestSqlServerModel() { Name = "CHRISTIAN", Surname = "DEL BIANCO" });
             InitialValues.Add(new MultiDmlOperationsTestSqlServerModel() { Name = "VELIA", Surname = "CECCARELLI" });
             InitialValues.Add(new MultiDmlOperationsTestSqlServerModel() { Name = "ALFREDINA", Surname = "BRUSCHI" });
-
+            Console.WriteLine("Using ConnetionString {connstring}", ConnectionString);
             using (var sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();
