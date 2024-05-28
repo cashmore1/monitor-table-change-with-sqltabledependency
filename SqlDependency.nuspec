@@ -10,21 +10,15 @@
         <!--<iconUrl></iconUrl>-->
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>
-          SqlTableDependency is a high-level implementation to access table record change notifications from SQL Server.  This class allows 
-        you to create a dependency to detect changes on a database table. Every change will trigger a notification messages contains values for the updated, 
-        inserted or deleted record, avoid you to execute a further select to update your application data.  If you want to use record change notifications without 
-        paying attention to the underlying Service Broker infrastructure, the SqlTableDependency class is your choice.  The SqlTableDependency class represents 
-        a notification dependency between an application and a SQL Server Table. When you use SqlTableDependency to get notifications, this componenet provides the 
-        low-level implementation creating the Queue and Service Broker.  In this way SqlTableDependency class provides access to notifications without knowing anything 
-        about the underlying Service Broker infrastructure. Once a record changed happens, SqlTableDependency's event subscribers are notified.
-      </description>
+          SqlTableDependency is a high-level implementation to access table record change notifications from SQL Server.  This class allows you to create a dependency to detect changes on a database table. Every change will trigger a notification messages contains values for the updated, inserted or deleted record, avoid you to execute a further select to update your application data.  If you want to use record change notifications without paying attention to the underlying Service Broker infrastructure, the SqlTableDependency class is your choice.  The SqlTableDependency class represents a notification dependency between an application and a SQL Server Table. When you use SqlTableDependency to get notifications, this componenet provides the low-level implementation creating the Queue and Service Broker.  In this way SqlTableDependency class provides access to notifications without knowing anything about the underlying Service Broker infrastructure. Once a record changed happens, SqlTableDependency's event subscribers are notified.
+          For .NET6 use version => 6
+          For .net 4.x use version 1.x
+        </description>
         <summary>
-          SqlTableDependency is a high-level implementation to access table record change notifications from SQL Server. 
-        This class allows you to create a dependency to detect changes on a database table. Every change will trigger a notification messages contains values for the updated, 
-        inserted or deleted record, avoid you to execute a further select to update your application data.
+          SqlTableDependency is a high-level implementation to access table record change notifications from SQL Server.  This class allows you to create a dependency to detect changes on a database table. Every change will trigger a notification messages contains values for the updated, inserted or deleted record, avoid you to execute a further select to update your application data.
       </summary>
-        <copyright>2015-2017</copyright>
-        <language>en-GB</language>
+        <copyright>2015-2024</copyright>
+        <language>en-EN</language>
         <tags>SQL Server dependency notifications service broker queue alerts messages</tags>
         <dependencies>
             <group targetFramework=".NET6.0" />
