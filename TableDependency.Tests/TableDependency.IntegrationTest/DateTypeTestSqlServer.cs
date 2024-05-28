@@ -33,7 +33,7 @@ namespace TableDependency.IntegrationTest.TypeChecks
         {
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             ConnectionString = config.ConnectionStrings.ConnectionStrings["SqlServer2008 Test_User"].ConnectionString;
-            Console.WriteLine("Using ConnetionString {connstring}", ConnectionString);
+            Console.WriteLine($"Using ConnetionString {ConnectionString}");
             using (var sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();
