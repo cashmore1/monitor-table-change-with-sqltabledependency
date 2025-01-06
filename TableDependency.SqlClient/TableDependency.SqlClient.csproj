@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>TableDependency.SqlClient.El.pfx</AssemblyOriginatorKeyFile>
@@ -15,9 +15,11 @@
     <Copyright>Copyright Christian Del Bianco © 2015-2017</Copyright>
     <AssemblyVersion>6.1.0.0</AssemblyVersion>
     <FileVersion>6.1.0.0</FileVersion>
+	  <InformationalVersion>6.1.0.0</InformationalVersion>
+	  <AssemblyTrademark>EMS Loop LLC</AssemblyTrademark>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TableDependency\TableDependency.csproj" />
